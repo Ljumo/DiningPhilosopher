@@ -1,4 +1,3 @@
-# DiningPhilosopher
 # DiningPhilosophersProblem
 操作系统课设多进程模拟哲学家就餐问题
 ## 问题描述
