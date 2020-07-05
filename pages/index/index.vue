@@ -49,7 +49,7 @@
 	export default {
 		data() {
 			return {
-				writer: "廖晓伟",
+				writer: "Ljumo",
 				behavior: [
 					"思考中",
 					"思考中",
@@ -122,11 +122,6 @@
 			},
 			init(){
 				let a = new Array();
-				// a[0] = new this.Philosopher(0,this);
-				// a[1] = new this.Philosopher(1,this);
-				// a[2] = new this.Philosopher(2,this);
-				// a[3] = new this.Philosopher(3,this);
-				// a[4] = new this.Philosopher(4,this);
 				for(let i = 0;i<5;i++){
 					a[i] = new this.Philosopher(i,this);
 					a[i].run();
