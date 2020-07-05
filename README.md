@@ -6,13 +6,13 @@
 当一个哲学家感到饿了时，他就试图分两次去取左边和右边的筷子，每次拿一把，但不分次序。如果成功得到了两把筷子，就开始吃饭，吃完后放下筷子继续思考。
 请为每一个哲学家写一段描述其行为的程序，而且不会死锁。
 ## 代码运行
-### 此为uniapp，需使用微信开发者工具,HBuilderX运行
+### 此为uniapp，需使用微信开发者工具,HBuilderX。并在HBuilderX中运行
 官网下载微信开发者工具，HBuilderX <br/>
 uniapp的使用查看官网即可<br/>
 具体如何使用参照文章
 https://juejin.im/post/5dcb77e9f265da4d260447c8
 
 ### copyright
-在微信开发者工具中的资源管理器界面<br/>
+编译器中
 选择 pages -> index ->index.vue<br/>
 在52行的writer改为自己名称即可
