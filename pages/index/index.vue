@@ -49,6 +49,7 @@
 	export default {
 		data() {
 			return {
+				// 公共资源
 				writer: "Ljumo",
 				behavior: [
 					"思考中",
@@ -64,13 +65,14 @@
 					false,
 					false
 				],
-				
 			}
 		},
 		onLoad() {
+			// 页面初始化
 			this.init();
 		},
 		methods: {
+			//创建哲学家类
 			Philosopher : class {
 				constructor(id,that) {					
 				    this.id = id;
@@ -84,16 +86,23 @@
 						await this.putfork();
 					}
 				}
+				// 思考状态
 				async thinking(){
 					console.log("哲学家"+(this.id+1)+"思考")
 					await this.delay(parseInt(Math.random()*(6000-3000+1)+3000,10));
+					// await this.delay(2000);
 				}
+				// 吃饭状态
 				async eating(){
 					console.log("哲学家"+(this.id+1)+"吃饭")
-					await this.delay(parseInt(Math.random()*(6000-3000+1)+3000,10))		
+					await this.delay(parseInt(Math.random()*(6000-3000+1)+3000,10));
+					// await this.delay(2000);
 				}
+				// 拿餐具状态，占用餐具
 				async takefork(){
-					console.log("哲学家"+(this.id+1)+"拿餐具")		
+					await console.log("哲学家"+(this.id+1)+"拿餐具")	
+						
+					// 解决死锁代码（判断两端是否都有餐具，否则进入睡眠状态）
 					while(this.that.used[this.id] || this.that.used[(this.id + 1) % 5]){
 						await this.wait(0);
 					}
@@ -101,8 +110,15 @@
 					this.that.used[(this.id + 1) % 5] = true;
 					this.that.behavior[this.id] = "吃饭中";
 					this.that.$forceUpdate();			//强制更新视图解决数组数据更新不渲染
+					
+					// //实现死锁代码
+					// this.that.used[chid] = true;
+					// await this.leftright(this.id);
+					// await this.leftright((this.id + 1) % 5);
+					
 					await this.delay(0);
 				}
+				// 放餐具状态，释放餐具
 				async putfork(){
 					console.log("哲学家"+(this.id+1)+"放餐具")
 					this.that.used[this.id] = false;
@@ -111,15 +127,31 @@
 					this.that.$forceUpdate();			//强制更新视图解决数组数据更新不渲染
 					await this.delay(0);
 				}
+				// 延迟返回promise，配合await实现异步
 				delay(t){
 					return new Promise(resolve => setTimeout(resolve,t));
 				}
+				// 等待状态，若餐具被占用，哲学家从思考状态进入等待状态
 				wait(t){
 					this.that.behavior[this.id] = "等待中"
 					this.that.$forceUpdate();
 					return new Promise(resolve => setTimeout(resolve,t));
 				}
+				// 左右手分别拿餐具函数，方便实现死锁
+				async leftright(chid){
+					while(this.that.used[chid]){
+						await this.wait(0);
+					}
+					this.that.used[chid] = true;
+					if(chid == (this.id + 1) % 5){
+						this.that.behavior[this.id] = "吃饭中";
+						this.that.$forceUpdate();			// 强制更新视图解决数组数据更新不渲染
+					}
+					await this.delay(0);
+				}
+				
 			},
+			// 创建哲学家，并运行哲学家动作
 			init(){
 				let a = new Array();
 				for(let i = 0;i<5;i++){
